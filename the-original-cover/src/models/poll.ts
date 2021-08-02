@@ -6,6 +6,8 @@ class Poll {
     private readonly _coverArtist: string;
     private readonly _artistDetailsOriginal: Array<string>;
     private readonly _artistDetailsCover: Array<string>;
+    private readonly _votesOriginal: number;
+    private readonly _votesCover: number;
     private readonly _youtubeOriginalVideoUrl: string;
     private readonly _youtubeCoverVideoUrl: string;
     private readonly _twitterStatus: string;
@@ -18,6 +20,8 @@ class Poll {
         coverArtist: string,
         artistDetailsOriginal: Array<string>,
         artistDetailsCover: Array<string>,
+        votesOriginal: number,
+        votesCover: number,
         youtubeCoverVideoUrl: string,
         youtubeOriginalVideoUrl: string,
         twitterStatus: string
@@ -29,9 +33,12 @@ class Poll {
         this._coverArtist = coverArtist;
         this._artistDetailsOriginal = artistDetailsOriginal;
         this._artistDetailsCover = artistDetailsCover;
+        this._votesOriginal = votesOriginal;
+        this._votesCover = votesCover;
         this._youtubeCoverVideoUrl = youtubeCoverVideoUrl;
         this._youtubeOriginalVideoUrl = youtubeOriginalVideoUrl;
         this._twitterStatus = twitterStatus;
+
     }
 
     public get id(): string {
@@ -60,6 +67,14 @@ class Poll {
 
     public get artistDetailsCover(): Array<string> {
         return this._artistDetailsCover;
+    }
+
+    public get votesOriginal(): number {
+        return this._votesOriginal;
+    }
+
+    public get votesCover(): number {
+        return this._votesCover;
     }
 
     public get youtubeCoverVideoUrl(): string {

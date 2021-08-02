@@ -1,5 +1,5 @@
-import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Button, Grid, IconButton, makeStyles } from "@material-ui/core";
-import { HowToVote, YouTube } from "@material-ui/icons";
+import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Divider, Grid, IconButton, makeStyles } from "@material-ui/core";
+import { HowToVote, YouTube, Twitter } from "@material-ui/icons";
 import PollCardArtistsHeading from "./PollCardArtistsHeading";
 import PollCardSongHeading from "./PollCardSongHeading";
 import Poll from "../models/poll";
@@ -19,11 +19,11 @@ const useAccordionStyles = makeStyles({
         backgroundColor: '#1234'
     },
     column: {
-        width: '33.33%',
         height: 'inherit',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        margin: '0px 5px'
     },
     content: {
         display: 'flex',
@@ -86,9 +86,13 @@ const PollCard = (props: { poll: Poll }) => {
                 <div className={classes.column}>
                     <PollCardSongHeading poll={poll} />
                 </div>
-                <div className={classes.column}>
+                <Divider orientation='vertical' flexItem style={{ width: 2 }} />
+                <div className={classes.column} style={{ flexGrow: 1 }}>
                     <PollCardArtistsHeading poll={poll} />
                 </div>
+                <IconButton>
+                    <Twitter />
+                </IconButton>
             </AccordionSummary>
             <AccordionDetails>
                 <Grid container direction="row" justifyContent="space-around" alignItems="flex-start" style={{ flexGrow: 1 }}>
