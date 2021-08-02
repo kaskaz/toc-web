@@ -77,6 +77,7 @@ const PollCard = (props: { poll: Poll }) => {
     
     const voteOriginalUrl = (): string => config.twitterVoteStartPart + poll.twitterStatus + config.twitterVoteOriginalPart;
     const voteCoverUrl = (): string => config.twitterVoteStartPart + poll.twitterStatus + config.twitterVoteCoverPart;
+    const twitterStatus = (): string => config.twitterStatusPart + poll.twitterStatus;
 
     return (
         <Accordion
@@ -90,7 +91,7 @@ const PollCard = (props: { poll: Poll }) => {
                 <div className={classes.column} style={{ flexGrow: 1 }}>
                     <PollCardArtistsHeading poll={poll} />
                 </div>
-                <IconButton>
+                <IconButton href={twitterStatus()} target="_blank" onClick={e => e.stopPropagation()}>
                     <Twitter />
                 </IconButton>
             </AccordionSummary>
