@@ -3,7 +3,9 @@ import Head from 'next/head'
 import { makeStyles } from '@material-ui/core'
 import Content from '../components/Content';
 import Footer from '../components/Footer';
-import Header from '../components/Header';
+import Header from '../components/header/Header';
+
+import "@fontsource/open-sans";
 
 const useStyles = makeStyles({
   container: {

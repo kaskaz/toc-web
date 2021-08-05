@@ -2,7 +2,7 @@ import { Container, List, ListItem, makeStyles } from "@material-ui/core";
 import Poll from "../models/poll";
 import PollCard from "./PollCard";
 
-const polls = Array.from(Array(1).keys()).map((v: number, i: number): Poll => {
+const polls = Array.from(Array(20).keys()).map((v: number, i: number): Poll => {
     return new Poll(
         `poll-id-${i}`,
         i + 1,
