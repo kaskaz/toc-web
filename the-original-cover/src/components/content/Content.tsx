@@ -1,8 +1,9 @@
 import { Container, List, ListItem, makeStyles } from "@material-ui/core";
-import Poll from "../models/poll";
+import Poll from "../../models/poll";
+import Configuration from "../../models/configuration";
 import PollCard from "./PollCard";
 
-const polls = Array.from(Array(20).keys()).map((v: number, i: number): Poll => {
+const polls = Array.from(Array(50).keys()).map((v: number, i: number): Poll => {
     return new Poll(
         `poll-id-${i}`,
         i + 1,
@@ -31,8 +32,10 @@ const polls = Array.from(Array(20).keys()).map((v: number, i: number): Poll => {
 
 const useContainerStyles = makeStyles({
     root: {
-        height: '100vh',
-        maxHeight: '100vh'
+        height: '100%',
+        minHeight: '100vh',
+        backgroundColor: '#f13b3b',
+        fontFamily: ['"Open Sans"', 'sans-serif'].join(',')
     },
 });
 
@@ -54,12 +57,19 @@ const Content = () => {
     const listStyles = useListStyles();
     const listItemClasses = useListItemStyles();
 
+    const config = new Configuration(
+        "https://twitter.com/originalvscover/status/",
+        "&text=I+vote+cover!",
+        "&text=I+vote+original!",
+        "https://twitter.com/intent/tweet?in_reply_to="
+    );
+
     const renderListItem = (poll: Poll): JSX.Element => {
         return (
             <ListItem 
                 key={poll.number-1}
                 className={listItemClasses.root}>
-                <PollCard poll={poll} />
+                <PollCard config={config} poll={poll} />
             </ListItem>
         );
     }

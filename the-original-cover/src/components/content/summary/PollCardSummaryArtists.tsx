@@ -1,5 +1,5 @@
 import { Chip, Grid, makeStyles, Typography } from "@material-ui/core";
-import Poll from "../models/poll";
+import Poll from "../../../models/poll";
 
 const useTypographyStyles = makeStyles({
     root: {
@@ -11,11 +11,12 @@ const useTypographyStyles = makeStyles({
 const useChipStyles = makeStyles({
     root: {
         margin: 5,
-        width: 50
+        width: 50,
+        borderColor: '#eb6c6c'
     }
 });
 
-const PollCardArtistsHeading = (props: { poll: Poll }) => {
+const PollCardSummaryArtists = (props: { poll: Poll }) => {
     const { poll } = props;
     const typographyClasses = useTypographyStyles();
     const chipClasses = useChipStyles();
@@ -35,4 +36,4 @@ const PollCardArtistsHeading = (props: { poll: Poll }) => {
     );
 };
 
-export default PollCardArtistsHeading;
+export default PollCardSummaryArtists;

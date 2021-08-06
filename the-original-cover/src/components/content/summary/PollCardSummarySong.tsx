@@ -1,7 +1,7 @@
 import { Typography } from "@material-ui/core";
-import Poll from "../models/poll";
+import Poll from "../../../models/poll";
 
-const PollCardSongHeading = (props: { poll: Poll }) => {
+const PollCardSummarySong = (props: { poll: Poll }) => {
     const { poll } = props;
     return (
         <Typography style={{ fontSize: '24px' }}>
@@ -10,4 +10,4 @@ const PollCardSongHeading = (props: { poll: Poll }) => {
     );
 };
 
-export default PollCardSongHeading;
+export default PollCardSummarySong;

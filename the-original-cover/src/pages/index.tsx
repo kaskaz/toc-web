@@ -1,21 +1,23 @@
 import Head from 'next/head'
 
 import { makeStyles } from '@material-ui/core'
-import Content from '../components/Content';
-import Footer from '../components/Footer';
+import Content from '../components/content/Content';
+import Footer from '../components/footer/Footer';
 import Header from '../components/header/Header';
 
 import "@fontsource/open-sans";
+import "@fontsource/gentium-book-basic";
 
 const useStyles = makeStyles({
   container: {
-    minHeight: '100vh',
+    minHeight: '100%',
     padding: '0 0.5rem',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100vh'
+    height: '100%',
+    backgroundColor: '#f13b3b'
   }
 });
 
