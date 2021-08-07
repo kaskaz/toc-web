@@ -1,5 +1,5 @@
 import { Accordion, makeStyles } from "@material-ui/core";
-import PollCardSummary from "./summary/PollCardSummary";
+import PollCardSummary from "./PollCardSummary";
 import PollCardActions from "./PollCardActions";
 import PollCardDetails from "./PollCardDetails";
 import Poll from "../../models/poll";
