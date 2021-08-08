@@ -22,7 +22,7 @@ const polls = Array.from(Array(50).keys()).map((v: number, i: number): Poll => {
             'from the album Abraxas released in 1970',
             '<a href="https://www.songfacts.com/facts/santana/black-magic-woman" target="_blank">This was a hit for Santana, but few people know that this song is actually a cover of a 1968 Fleetwood Mac song that hit #37 in the UK. Peter Green, who was a founding member of Fleetwood Mac, wrote the lyrics.</a>'
         ],
-        1,
+        999,
         20,
         "https://www.youtube.com/watch?v=axbtig7w7a8",
         "https://www.youtube.com/watch?v=hRu7Pt42x6Y",

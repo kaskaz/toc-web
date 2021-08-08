@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     },
     '@media (max-width: 959px)': {
         divider: {
-            width: '95%',
+            width: 'auto',
         },
     },
     '@media (max-width: 660px)': {
@@ -31,30 +31,33 @@ const useStyles = makeStyles({
         artistTitle: {
             fontSize: '3vw',
         },
+        chip: {
+            fontSize: '2vw',
+        }
     }
 });
 
 const PollCardSummary = (props: { config: Configuration, poll: Poll }) => {
     const { config, poll } = props;
     const classes = useStyles();
-    const isHorizontal = useMediaQuery('(max-width: 959px)');
+    const isStacked = useMediaQuery('(max-width: 959px)');
 
     const twitterStatus = (): string => config.twitterStatusPart + poll.twitterStatus;
 
     return (
         <AccordionSummary aria-controls={`poll-content-${poll.id}`} id={`poll-header-${poll.id}`}>
             <Grid container direction="row" justifyContent="space-between">
-                <Grid item container xs={11} alignContent="center" spacing={1}>
+                <Grid item container xs={isStacked ? 10 : 11} alignContent="center" spacing={1}>
                     <Grid item xs={12} md={'auto'}>
-                        <Typography className={classes.songTitle}>
+                        <Typography className={classes.songTitle} align={isStacked ? 'center' : 'left'}>
                             {`#${poll.number} ${poll.songName}`}
                         </Typography>
                     </Grid>
                     <Grid item xs={12} md={'auto'}>
-                        <Divider orientation={isHorizontal ? 'horizontal': 'vertical'} className={classes.divider} />
+                        <Divider orientation={isStacked ? 'horizontal': 'vertical'} className={classes.divider} />
                     </Grid>
                     <Grid item xs={12} md={'auto'}>
-                        <Grid container>
+                        <Grid container justifyContent={isStacked ? 'center' : 'flex-start'}>
                             <Grid item>
                                 <Grid container alignItems="center">
                                     <Grid item>
@@ -63,14 +66,24 @@ const PollCardSummary = (props: { config: Configuration, poll: Poll }) => {
                                         </Typography>
                                     </Grid>
                                     <Grid item>
-                                        <Chip className={classes.chip} label={poll.votesOriginal} variant="outlined" size="small" />
+                                        <Chip 
+                                            className={classes.chip}
+                                            label={poll.votesOriginal}
+                                            variant="outlined"
+                                            size="small"
+                                        />
                                     </Grid>
                                 </Grid>
                             </Grid>
                             <Grid item>
                                 <Grid container alignItems="center">
                                     <Grid item>
-                                        <Chip className={classes.chip} label={poll.votesCover} variant="outlined" size="small" />
+                                        <Chip
+                                            className={classes.chip}
+                                            label={poll.votesCover}
+                                            variant="outlined"
+                                            size="small"
+                                        />
                                     </Grid>
                                     <Grid item>
                                         <Typography className={classes.artistTitle}>
@@ -82,7 +95,7 @@ const PollCardSummary = (props: { config: Configuration, poll: Poll }) => {
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid item container xs={1} justifyContent="flex-end">
+                <Grid item container xs={isStacked ? 2 : 1} justifyContent="flex-end">
                     <IconButton href={twitterStatus()} target="_blank" onClick={e => e.stopPropagation()}>
                         <Twitter />
                     </IconButton>
