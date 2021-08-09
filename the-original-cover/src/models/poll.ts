@@ -10,6 +10,8 @@ class Poll {
     private readonly _votesCover: number;
     private readonly _youtubeOriginalVideoUrl: string;
     private readonly _youtubeCoverVideoUrl: string;
+    private readonly _artistWebsiteCover: string;
+    private readonly _artistWebsiteOriginal: string;
     private readonly _twitterStatus: string;
 
     constructor(
@@ -24,6 +26,8 @@ class Poll {
         votesCover: number,
         youtubeCoverVideoUrl: string,
         youtubeOriginalVideoUrl: string,
+        artistWebsiteCover: string,
+        artistWebsiteOriginal: string,
         twitterStatus: string
     ) {
         this._id = id;
@@ -37,6 +41,8 @@ class Poll {
         this._votesCover = votesCover;
         this._youtubeCoverVideoUrl = youtubeCoverVideoUrl;
         this._youtubeOriginalVideoUrl = youtubeOriginalVideoUrl;
+        this._artistWebsiteCover = artistWebsiteCover;
+        this._artistWebsiteOriginal = artistWebsiteOriginal;
         this._twitterStatus = twitterStatus;
 
     }
@@ -87,6 +93,14 @@ class Poll {
 
     public get twitterStatus(): string {
         return this._twitterStatus;
+    }
+    
+    public get artistWebsiteCover(): string {
+        return this._artistWebsiteCover;
+    }
+
+    public get artistWebsiteOriginal(): string {
+        return this._artistWebsiteOriginal;
     }
 }
 

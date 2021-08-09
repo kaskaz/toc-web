@@ -26,6 +26,8 @@ const polls = Array.from(Array(50).keys()).map((v: number, i: number): Poll => {
         20,
         "https://www.youtube.com/watch?v=axbtig7w7a8",
         "https://www.youtube.com/watch?v=hRu7Pt42x6Y",
+        "https://www.santana.com",
+        "https://www.fleetwoodmac.com",
         "1285008608770633730"
     );
 });

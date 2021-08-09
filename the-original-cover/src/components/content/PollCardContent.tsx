@@ -1,5 +1,5 @@
 import { AccordionActions, AccordionDetails, Grid, IconButton, makeStyles, useMediaQuery } from "@material-ui/core";
-import { HowToVote, YouTube } from "@material-ui/icons";
+import { HowToVote, YouTube, Language } from "@material-ui/icons";
 import Configuration from "../../models/configuration";
 import Poll from "../../models/poll";
 
@@ -100,6 +100,11 @@ const PollCardContent = (props: {config: Configuration, poll: Poll }) => {
                             <YouTube />
                         </IconButton>
                     </Grid>
+                    <Grid item>
+                        <IconButton href={poll.artistWebsiteOriginal} target="_blank">
+                            <Language />
+                        </IconButton>
+                    </Grid>
                 </Grid>
             </AccordionActions>
             <AccordionActions style={{ gridArea: 'cover-actions' }}>
@@ -112,6 +117,11 @@ const PollCardContent = (props: {config: Configuration, poll: Poll }) => {
                     <Grid item>
                         <IconButton href={poll.youtubeCoverVideoUrl} target="_blank">
                             <YouTube />
+                        </IconButton>
+                    </Grid>
+                    <Grid item>
+                        <IconButton href={poll.artistWebsiteCover} target="_blank">
+                            <Language />
                         </IconButton>
                     </Grid>
                 </Grid>
