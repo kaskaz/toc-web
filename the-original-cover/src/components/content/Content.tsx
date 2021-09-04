@@ -1,7 +1,16 @@
-import { Container, List, ListItem, makeStyles } from "@material-ui/core";
+import { useEffect, useState } from "react";
+import { CircularProgress, Container, List, ListItem, makeStyles } from "@material-ui/core";
 import Poll from "../../models/poll";
 import Configuration from "../../models/configuration";
 import PollCard from "./PollCard";
+
+import * as firebase from 'firebase/app';
+import * as firestore from 'firebase/firestore';
+
+import CONFIG from '../../../firebase';
+
+const app = firebase.initializeApp(CONFIG);
+const db = firestore.getFirestore(app);
 
 const polls = Array.from(Array(50).keys()).map((v: number, i: number): Poll => {
     return new Poll(
@@ -59,14 +68,27 @@ const Content = () => {
     const listStyles = useListStyles();
     const listItemClasses = useListItemStyles();
 
-    const config = new Configuration(
-        "https://twitter.com/originalvscover/status/",
-        "&text=I+vote+cover!",
-        "&text=I+vote+original!",
-        "https://twitter.com/intent/tweet?in_reply_to="
-    );
+    const [ config, setConfig ] = useState<Configuration | undefined>(undefined);
 
-    const renderListItem = (poll: Poll): JSX.Element => {
+    useEffect(() => {
+        firestore.getDoc(firestore.doc(db, '/poll-config/config'))
+            .then(doc => {
+                if(doc.exists()) {
+                    let data = doc.data();
+                    console.log(data)
+                    setConfig(
+                        new Configuration(
+                            data.twitterStatusPart,
+                            data.twitterVoteCoverPart,
+                            data.twitterVoteOriginalPart,
+                            data.twitterVoteStartPart
+                        )
+                    );
+                }
+            });
+    });
+
+    const renderListItem = (poll: Poll, config: Configuration): JSX.Element => {
         return (
             <ListItem 
                 key={poll.number-1}
@@ -78,9 +100,16 @@ const Content = () => {
 
     return (
         <Container className={classes.root}>
-            <List disablePadding className={listStyles.root}>
-                { polls.map(renderListItem) }
-            </List>
+            {
+                config === undefined ?
+                    (
+                        <CircularProgress />
+                    ) : (
+                        <List disablePadding className={listStyles.root}>
+                            { polls.map(poll => renderListItem(poll, config)) }
+                        </List>
+                    )
+            }
         </Container>
     );
 };
