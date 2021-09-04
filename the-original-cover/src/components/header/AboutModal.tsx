@@ -68,6 +68,7 @@ const AboutModal = (props: { show: boolean, onClose: () => void }) => {
             aria-labelledby="about-dialog-title" 
             transitionDuration={500}
             maxWidth={'lg'}
+            scroll={'body'}
             PaperProps={{ 
                 square: true,
                 className: paperClasses.root 
