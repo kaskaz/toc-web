@@ -9,7 +9,6 @@ import { collection, doc, getFirestore, getDoc, getDocs, onSnapshot, orderBy, qu
 
 import CONFIG from '../../../firebase';
 
-
 const app = firebase.initializeApp(CONFIG);
 const database = getFirestore(app);
 
@@ -35,13 +34,27 @@ const useListItemStyles = makeStyles({
     }
 });
 
+const useSpinnerStyles = makeStyles({
+    spinner: {
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: '#f6eeee'
+    }
+});
+
 const Content = () => {
     const classes = useContainerStyles();
     const listStyles = useListStyles();
     const listItemClasses = useListItemStyles();
+    const spinnerClasses = useSpinnerStyles();
 
-    const [ config, setConfig ] = useState<Configuration | undefined>(undefined);
+    const [ config, setConfig ] = useState<Configuration>(new Configuration('', '', '', ''));
     const [ polls, setPolls ] = useState<Array<Poll>>([]);
+    const [ hasPolls, setHasPolls] = useState<Boolean>(false);
+    const [ isLoading, setIsLoading ] = useState<Boolean>(true);
 
     const addPoll = (list: Array<Poll>, id: string, data: DocumentData) => {
         list.push(
@@ -92,22 +105,34 @@ const Content = () => {
             let pollList: Array<Poll> = [];
             docs.forEach(doc => {
                 addPoll(pollList, doc.id, doc.data());
-                onSnapshot(
-                    doc.ref,
-                    {
-                        next: (ds) => {
-                            let newList = pollList.filter(p => p.id !== ds.id);
-                            if (ds.exists() && ds.data().isEnabled) {
-                                addPoll(newList, ds.id, ds.data());
-                            }
-                            setPolls(newList);
-                        }
-                    }
-                );
             });
             setPolls(pollList);
+            setHasPolls(true);
         });
     }, []);
+
+    useEffect(() => {
+        if (hasPolls) {
+            getDocs(collection(database, '/votes'))
+                .then(docs => {
+                    docs.docs.forEach((votes, index) => {
+                        if (votes.exists()) {
+                            let data = votes.data();
+                            polls.forEach(poll => {
+                                if (poll.twitterStatus === data.id) {
+                                    poll.votesCover = data.cover?.length | 0;
+                                    poll.votesOriginal = data.original?.length | 0;
+                                }
+                            });
+                        }
+
+                        if (index === (docs.size-1)) {
+                            setIsLoading(false);
+                        }
+                    });
+                });
+        }
+    }, [hasPolls]);
 
     const renderListItem = (poll: Poll, config: Configuration): JSX.Element => {
         return (
@@ -122,9 +147,11 @@ const Content = () => {
     return (
         <Container className={classes.root}>
             {
-                config === undefined ?
+                isLoading ?
                     (
-                        <CircularProgress />
+                        <div className={spinnerClasses.spinner}>
+                            <CircularProgress style={{ color: '#f6eeee' }} />
+                        </div>
                     ) : (
                         <List disablePadding className={listStyles.root}>
                             { polls.map(poll => renderListItem(poll, config)) }
