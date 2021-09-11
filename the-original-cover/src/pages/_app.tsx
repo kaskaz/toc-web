@@ -8,10 +8,10 @@ function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   useEffect(()=> {
-    if (!Object.keys(router.query).includes("untrack")) {
+    if (router.isReady && !Object.keys(router.query).includes("untrack")) {
       initGA("UA-167830317-1");
     }
-  });
+  },[router.query]);
 
   return <Component {...pageProps} />
 }
