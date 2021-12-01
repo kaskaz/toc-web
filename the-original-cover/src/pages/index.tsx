@@ -8,6 +8,15 @@ import Header from '../components/header/Header';
 
 import "@fontsource/open-sans";
 import "@fontsource/gentium-book-basic";
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+
+import CONFIG from '../../firebase';
+import * as firebase from 'firebase/app';
+import { collection, doc, getFirestore, getDoc, getDocs, orderBy, query, where } from "firebase/firestore";
+
+import Configuration from '../models/configuration';
+import Poll from '../models/poll';
+
 
 const useStyles = makeStyles({
   container: {
@@ -22,7 +31,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default function Home() {
+export default function Home({ config, polls }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const classes = useStyles();
   return (
     <div className={classes.container}>
@@ -34,8 +43,90 @@ export default function Home() {
         <script async src="/widgets.js"></script>
       </Head>
       <Header />
-      <Content />
+      <Content config={config} polls={polls} />
       <Footer />
     </div>
   )
 }
+
+type Vote = {
+  pollId: string;
+  originalVotes: number;
+  coverVotes: number;
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+
+  const app = firebase.initializeApp(CONFIG);
+  const database = getFirestore(app);
+
+  const configResponse = await getDoc(doc(database, '/poll-config/config'));
+  const votesResponse = await getDocs(collection(database, '/votes'));
+  const pollsResponse = await getDocs(
+    query(
+        collection(database, '/polls'),
+        where('isEnabled', '==', true),
+        orderBy('number', 'desc')
+    )
+  );
+
+  if(!configResponse.exists() || pollsResponse.empty || votesResponse.empty) {
+    return {
+      notFound: true
+    }
+  }
+
+  let configData = configResponse.data();
+  const config = new Configuration(
+    configData.twitterStatusPart,
+    configData.twitterVoteCoverPart,
+    configData.twitterVoteOriginalPart,
+    configData.twitterVoteStartPart
+  );
+
+  const str = JSON.stringify(config);
+  console.log('stringify', str)
+  console.log('parse', JSON.parse(str));
+
+  let polls: Poll[] = [];
+  let votes: Vote[] = votesResponse.docs.map(doc => { 
+    return {
+      pollId: doc.data().id,
+      originalVotes: doc.data().cover?.length | 0,
+      coverVotes: doc.data().original?.length | 0
+    }
+  });
+  
+  pollsResponse.forEach(poll => {
+    let data = poll.data();
+    let pollVotes = votes.find(pv => pv.pollId === data.twitterStatus);
+
+    if(pollVotes) {
+      polls.push(
+        new Poll(
+            poll.id,
+            data.number,
+            data.songName,
+            data.artistNameOriginal,
+            data.artistNameCover,
+            data.artistDetailsOriginal,
+            data.artistDetailsCover,
+            pollVotes.originalVotes,
+            pollVotes.coverVotes,
+            data.youtubeCoverVideo,
+            data.youtubeOriginalVideo,
+            data.artistWebsiteCover,
+            data.artistWebsiteOriginal,
+            data.twitterStatus
+        )
+      );
+    }
+  });
+
+  return {
+    props: {
+      config,
+      polls
+    }
+  }
+}; 
