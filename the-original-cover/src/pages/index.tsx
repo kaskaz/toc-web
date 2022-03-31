@@ -14,9 +14,7 @@ import CONFIG from '../../firebase';
 import * as firebase from 'firebase/app';
 import { collection, doc, getFirestore, getDoc, getDocs, orderBy, query, where } from "firebase/firestore";
 
-import Configuration from '../models/configuration';
 import Poll from '../models/poll';
-
 
 const useStyles = makeStyles({
   container: {
@@ -77,16 +75,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   let configData = configResponse.data();
-  const config = new Configuration(
-    configData.twitterStatusPart,
-    configData.twitterVoteCoverPart,
-    configData.twitterVoteOriginalPart,
-    configData.twitterVoteStartPart
-  );
-
-  const str = JSON.stringify(config);
-  console.log('stringify', str)
-  console.log('parse', JSON.parse(str));
+  const config = {
+    twitterStatusPart: configData.twitterStatusPart,
+    twitterVoteCoverPart: configData.twitterVoteCoverPart,
+    twitterVoteOriginalPart: configData.twitterVoteOriginalPart,
+    twitterVoteStartPart: configData.twitterVoteStartPart
+  };
 
   let polls: Poll[] = [];
   let votes: Vote[] = votesResponse.docs.map(doc => { 
@@ -103,22 +97,22 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     if(pollVotes) {
       polls.push(
-        new Poll(
-            poll.id,
-            data.number,
-            data.songName,
-            data.artistNameOriginal,
-            data.artistNameCover,
-            data.artistDetailsOriginal,
-            data.artistDetailsCover,
-            pollVotes.originalVotes,
-            pollVotes.coverVotes,
-            data.youtubeCoverVideo,
-            data.youtubeOriginalVideo,
-            data.artistWebsiteCover,
-            data.artistWebsiteOriginal,
-            data.twitterStatus
-        )
+        {
+          id: poll.id,
+          number: data.number,
+          songName: data.songName,
+          originalArtist: data.artistNameOriginal,
+          coverArtist: data.artistNameCover,
+          artistDetailsOriginal: data.artistDetailsOriginal,
+          artistDetailsCover: data.artistDetailsCover,
+          votesOriginal: pollVotes.originalVotes,
+          votesCover: pollVotes.coverVotes,
+          youtubeCoverVideoUrl: data.youtubeCoverVideo,
+          youtubeOriginalVideoUrl: data.youtubeOriginalVideo,
+          artistWebsiteCover: data.artistWebsiteCover,
+          artistWebsiteOriginal: data.artistWebsiteOriginal,
+          twitterStatus: data.twitterStatus
+        }
       );
     }
   });
