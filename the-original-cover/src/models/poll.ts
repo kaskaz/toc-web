@@ -6,8 +6,8 @@ class Poll {
     private readonly _coverArtist: string;
     private readonly _artistDetailsOriginal: Array<string>;
     private readonly _artistDetailsCover: Array<string>;
-    private readonly _votesOriginal: number;
-    private readonly _votesCover: number;
+    private _votesOriginal: number;
+    private _votesCover: number;
     private readonly _youtubeOriginalVideoUrl: string;
     private readonly _youtubeCoverVideoUrl: string;
     private readonly _artistWebsiteCover: string;
@@ -79,8 +79,16 @@ class Poll {
         return this._votesOriginal;
     }
 
+    public set votesOriginal(value: number) {
+        this._votesOriginal = value;
+    }
+
     public get votesCover(): number {
         return this._votesCover;
+    }
+
+    public set votesCover(value: number) {
+        this._votesCover = value;
     }
 
     public get youtubeCoverVideoUrl(): string {

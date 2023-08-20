@@ -1,8 +1,8 @@
 class Configuration {
-    private readonly _twitterStatusPart: string;
-    private readonly _twitterVoteCoverPart: string;
-    private readonly _twitterVoteOriginalPart: string;
-    private readonly _twitterVoteStartPart: string;
+    private _twitterStatusPart: string;
+    private _twitterVoteCoverPart: string;
+    private _twitterVoteOriginalPart: string;
+    private _twitterVoteStartPart: string;
 
     constructor(
         twitterStatusPart: string,
