@@ -40,7 +40,7 @@ export default function Home({ config, polls }: InferGetServerSidePropsType<type
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <script async src="/widgets.js"></script>
 
-        <script defer type="text/javascript" src="https://api.pirsch.io/pirsch.js" id="pirschjs" data-code="jyLcVvzLvEnxEDLcQaFzolcRV6Jrbw75"></script>
+        <script defer type="text/javascript" src="https://api.pirsch.io/pirsch.js" id="pirschjs" data-code="e7lUbvuXU4aj6OiNHddLKvLZ1fovVCMP"></script>
       </Head>
       <Header />
       <Content config={config} polls={polls} />
